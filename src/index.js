@@ -4,8 +4,17 @@ const companiesRouter = require('./routes/companies')
 const cors  = require('cors')
 const app = express()
 
+const whitelist = ['https://main--mellifluous-choux-0b1e2a.netlify.app/']
 
-app.use(cors({origin: 'https://main--mellifluous-choux-0b1e2a.netlify.app/',optionsSuccessStatus: 200 }))
+app.use(cors({origin: function (origin, callback) {
+  if (whitelist.indexOf(origin) !== -1 || !origin) {
+    console.log("it is whitelisted origin")
+    callback(null, true)
+  } else {
+    callback(new Error('Not allowed by CORS'))
+  }
+}
+  ,optionsSuccessStatus: 200 }))
 app.use((req, res, next) => {
     // res.setHeader('Access-Control-Allow-Origin','https://main--mellifluous-choux-0b1e2a.netlify.app/');
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, content-type");
