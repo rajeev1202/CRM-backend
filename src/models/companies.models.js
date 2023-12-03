@@ -1,30 +1,32 @@
 const mongoose = require("mongoose");
 
-const companiesSchema = mongoose.Schema({
+const companiesSchema = mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: [true, "company name is required"]
+      type: String,
+      required: [true, "company name is required"],
     },
     contactPerson: {
-        type: String,
+      type: String,
     },
     email: {
-        type: String
+      type: [String],
     },
     currency: {
-        type: String
+      type: String,
     },
     location: {
-        type: String
-    }
-},
-{
-    timestamps: true
-}
-
+      type: String,
+    },
+    phoneNumber: {
+      type: [String],
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
-
-const Companies = mongoose.model('Companies', companiesSchema);
+const Companies = mongoose.model("Companies", companiesSchema);
 
 module.exports = Companies;
