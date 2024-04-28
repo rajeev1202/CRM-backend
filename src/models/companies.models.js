@@ -7,7 +7,7 @@ const companiesSchema = mongoose.Schema(
       required: [true, "company name is required"],
     },
     contactPerson: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
     },
     email: {
       type: [String],
@@ -21,6 +21,18 @@ const companiesSchema = mongoose.Schema(
     phoneNumber: {
       type: [String],
     },
+    taxation: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    area: {
+      type: String,
+    },
+    pinCode: {
+      type: Number,
+    }
   },
   {
     timestamps: true,

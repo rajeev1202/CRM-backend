@@ -1,6 +1,8 @@
 const express = require('express') 
 const connectToDb  = require('./database')
 const companiesRouter = require('./routes/companies')
+const contactsRouter = require('./routes/contacts');
+const quotationRouter = require('./routes/quotations');
 const cors  = require('cors')
 const app = express()
 
@@ -20,6 +22,8 @@ app.use(
   );
 
 app.use(companiesRouter);
+app.use(contactsRouter);
+app.use(quotationRouter);
 
 app.use((err,req,res,next) => {
     res.status(500).send(err.stack)
