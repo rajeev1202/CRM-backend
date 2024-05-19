@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router();
 const Quotation = require("../models/quotation.models")
+const Companies = require("../models/companies.models");
 
 router.post("/qotation/create", async (req, res) => {
   try{
@@ -34,7 +35,18 @@ router.get("/quotation/get", async (req, res) => {
     } catch(err){
         res.status(500).json({ message: err.message });
     }
-})
+});
 
+router.get("/quotation/list", async (req,res) => {
+  try{
+    const data = await Quotation.aggregate([ { $lookup: { from:"companies", localField:"companyId", foreignField:"_id",pipeline: [
+      { $project: {"name":1}}], as:"companyDetails"}}]);
+    
+    console.log("quotation data",data);
+    res.status(200).json(data);
+  } catch(e){
+    console.log("Error fetching quotation data: ", e);
+  }
+})
 
 module.exports = router;
