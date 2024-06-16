@@ -3,10 +3,11 @@ const connectToDb  = require('./database')
 const companiesRouter = require('./routes/companies')
 const contactsRouter = require('./routes/contacts');
 const quotationRouter = require('./routes/quotations');
+const projectRouter = require('./routes/projects');
 const cors  = require('cors')
 const app = express()
 
-
+// app.use(cors({origin: 'http://localhost:4200',optionsSuccessStatus: 200 }));
 app.use(cors({origin: 'https://main--mellifluous-choux-0b1e2a.netlify.app',optionsSuccessStatus: 200 }));
 
 app.use((req, res, next) => {
@@ -24,6 +25,7 @@ app.use(
 app.use(companiesRouter);
 app.use(contactsRouter);
 app.use(quotationRouter);
+app.use(projectRouter);
 
 app.use((err,req,res,next) => {
     res.status(500).send(err.stack)

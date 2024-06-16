@@ -49,7 +49,6 @@ router.get("/companies/list", async (req,res) => {
     const companyList = companies.map((comp) => {
       return {id: comp._id, name: comp.name }
     })
-    console.log("companies data",companyList);
     res.status(200).json(companyList);
   } catch(e){
 
