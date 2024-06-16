@@ -15,7 +15,7 @@ const projectSchema = mongoose.Schema(
 	  	required: true,
 	},
 	quotationId: {
-    	type: mongoose.Schema.Types.ObjectId,
+    	type: Array,
 	  	required: true,
 	},
   },

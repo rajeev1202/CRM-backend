@@ -9,7 +9,6 @@ router.post("/projects/create", async (req, res) => {
         customerId: req.body.customerId
     }
     const projects = await Projects.create(dataToSave);
-    console.log("project create data to save",dataToSave,"after save =====",projects);
     res.status(200).json({projects})
 
   }catch(err){
@@ -20,9 +19,10 @@ router.post("/projects/create", async (req, res) => {
 router.get("/projects/get", async (req, res) => {
     try{
         const data = await Projects.aggregate([ { $lookup: { from:"companies", localField:"customerId", foreignField:"_id",pipeline: [
-          { $project: {"name":1}}], as:"companyDetails"}},
-          { $lookup: { from:"quotations", localField:"quotationId", foreignField:"_id",pipeline: [
-            { $project: {"dateOfQuotation":1}}], as:"quotationDetails"}}])
+            { $project: {"name":1}}], as:"companyDetails"}},
+            { $unwind : { path : "$quotationId" , "includeArrayIndex" : "rank"}},
+            { $lookup: { from:"quotations", localField:"quotationId", foreignField:"_id", as:"quotationData"}},
+        ])
         res.status(200).json(data)
     } catch(err){
         res.status(500).json({ message: err.message });
