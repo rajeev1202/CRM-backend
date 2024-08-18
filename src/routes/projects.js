@@ -31,12 +31,10 @@ router.get("/projects/get", async (req, res) => {
 
 router.post("/projects/save", async (req, res) => {
   try{
-    console.log("save proj data: ", req.body);
     let data = {
       customerId: req.body.customerId,
       name: req.body.projectName,
     }
-    console.debug("project req data",req.body);
     const newProject = await Projects.create(data)
     res.status(200).json(newProject)
   } catch(err){
