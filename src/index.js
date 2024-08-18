@@ -4,6 +4,7 @@ const companiesRouter = require('./routes/companies')
 const contactsRouter = require('./routes/contacts');
 const quotationRouter = require('./routes/quotations');
 const projectRouter = require('./routes/projects');
+const purchaseOrdersRouter = require('./routes/purchase-orders');
 const cors  = require('cors')
 const app = express()
 
@@ -26,6 +27,7 @@ app.use(companiesRouter);
 app.use(contactsRouter);
 app.use(quotationRouter);
 app.use(projectRouter);
+app.use(purchaseOrdersRouter);
 
 app.use((err,req,res,next) => {
     res.status(500).send(err.stack)

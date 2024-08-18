@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router();
 const Projects = require("../models/projects.models")
+const mongoose = require("mongoose")
 
 router.post("/projects/create", async (req, res) => {
   try{
@@ -28,6 +29,17 @@ router.get("/projects/get", async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+router.get("/projects/get/:customerId", async (req, res) => {
+  try{
+    const customerId = req.params.customerId;
+    const data = await Projects.find({ 
+      customerId: new mongoose.Types.ObjectId(customerId) });
+    res.status(200).json(data)
+  }catch(err){
+    res.status(500).json({ message: err.message });
+  }
+})
 
 
 module.exports = router;

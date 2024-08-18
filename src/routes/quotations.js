@@ -31,8 +31,8 @@ router.get("/quotation/get", async (req, res) => {
         const data = await Quotation.aggregate([ { $lookup: { from:"companies", localField:"companyId", foreignField:"_id",pipeline: [
           { $project: {"name":1}}], as:"companyDetails"}}])
         res.status(200).json(data)
-    } catch(err){
-        res.status(500).json({ message: err.message });
+    } catch(error){
+        res.status(500).json({ message: error.message });
     }
 });
 
@@ -42,8 +42,19 @@ router.get("/quotation/list", async (req,res) => {
       { $project: {"name":1}}], as:"companyDetails"}}]);
     
     res.status(200).json(data);
-  } catch(e){
-    console.log("Error fetching quotation data: ", e);
+  } catch(error){
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/quotation/get/:companyId", async (req, res) => {
+  try {
+    const companyId = req.params.companyId
+    const projectId = req.query.pid
+    const data =  await Quotation.find({companyId,projectId},{quotationNumber:1, submittedTo: 1, divisionOfWork: 1,dateOfQuotation: 1})
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: err.message });
   }
 })
 

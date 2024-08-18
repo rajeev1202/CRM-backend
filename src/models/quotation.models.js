@@ -43,7 +43,11 @@ const quotationSchema = mongoose.Schema({
         ratePerHrs: Number,
         isDiscountApplied: Boolean,
         discountPercentage: Number
-    }]
+    }],
+    projectId: {
+        type: mongoose.Schema.ObjectId,
+        required: [true, 'ProjectId is required']
+    },
 
 },
 {
