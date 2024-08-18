@@ -14,7 +14,6 @@ router.post("/contacts/create", async (req, res) => {
             positionInOrg: req.body.positionInOrg,
             note: req.body.note
         }
-        console.debug("contacts req data",req.body);
         const newContact = await Contacts.create(data)
         res.status(200).json(newContact);
     } catch (err) {

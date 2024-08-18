@@ -42,9 +42,8 @@ router.get("/quotation/list", async (req,res) => {
       { $project: {"name":1}}], as:"companyDetails"}}]);
     
     res.status(200).json(data);
-  } catch(e){
-    console.log("Error fetching quotation data: ", e);
-  }
+  } catch(error){
+    res.status(500).json({ message: error.message });  }
 })
 
 module.exports = router;
