@@ -1,5 +1,8 @@
 const express = require("express");
 const PurchaseOrders = require("../models/purchase-orders.model");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 const router = express.Router();
 
@@ -41,6 +44,7 @@ router.get("/po/get", async (req, res) => {
           quotationId: 1,
           projectId: 1,
           purchaseOrderNumber: 1,
+          purchaseOrderDoc: 1
         },
       },
     ]);
@@ -50,18 +54,43 @@ router.get("/po/get", async (req, res) => {
   }
 });
 
-router.post("/po/save", async (req, res) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+router.post("/po/save",upload.single('poDoc'), async (req, res) => {
   try {
-    const { poNumber, projectId, quotationId } = req.body;
+    const { poNumber, projectId, quotationId} = req.body;
+      // Check if the file and fields are present
+      const file = req.file;
+  if (!file) {
+    return res.status(400).send('No file uploaded.');
+  }
+  const filePath = path.resolve(`./uploads/${file.filename}`)
     const dataToSave = {
       purchaseOrderNumber: poNumber,
       quotationId,
       projectId,
+      purchaseOrderDoc: filePath
     };
     const purchaseOrder = await PurchaseOrders.create(dataToSave);
-    res.status(200).json(purchaseOrder);
+    res.status(200).json({
+      message: 'File uploaded and data received successfully',
+      file: file,
+      fields: {
+        poNumber,
+        projectId,
+        quotationId
+      }});
   } catch (error) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: error.message });
   }
 });
 

@@ -12,6 +12,9 @@ const purchaseOrderSchema = mongoose.Schema({
     purchaseOrderNumber: {
         type: String,
         required: true
+    },
+    purchaseOrderDoc: {
+        type: String
     }
 },
 {

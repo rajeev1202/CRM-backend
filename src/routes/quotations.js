@@ -43,9 +43,8 @@ router.get("/quotation/list", async (req,res) => {
     
     res.status(200).json(data);
   } catch(error){
-    res.status(500).json({ message: err.message });
-  }
-});
+    res.status(500).json({ message: error.message });  }
+  });
 
 router.get("/quotation/get/:companyId", async (req, res) => {
   try {
@@ -54,8 +53,8 @@ router.get("/quotation/get/:companyId", async (req, res) => {
     const data =  await Quotation.find({companyId,projectId},{quotationNumber:1, submittedTo: 1, divisionOfWork: 1,dateOfQuotation: 1})
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: error.message });  
   }
-})
+  });
 
 module.exports = router;
